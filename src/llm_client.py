@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import json
 import os
 from typing import Any
@@ -27,6 +28,45 @@ def _claude_complete(system_prompt: str, user_prompt: str, model: str, max_token
     if not api_key:
         raise LLMClientError("ANTHROPIC_API_KEY is required for Claude API calls.")
 
+    try:
+        import anthropic
+    except Exception as exc:
+        raise LLMClientError(
+            "Anthropic SDK is not installed. Run: python -m pip install anthropic"
+        ) from exc
+
+    client = anthropic.Anthropic(api_key=api_key)
+    try:
+        message = client.messages.create(
+            model=model,
+            max_tokens=max_tokens,
+            temperature=0.0,
+            top_p=1.0,
+            system=system_prompt,
+            messages=[{"role": "user", "content": user_prompt}],
+        )
+    except Exception as exc:
+        msg = str(exc)
+        if "404" in msg or "not_found" in msg.lower():
+            raise LLMClientError(
+                f"Claude API request failed: {exc}. Check MODEL='{model}' is available to your account."
+            ) from exc
+        raise LLMClientError(f"Claude API request failed: {exc}") from exc
+
+    content = getattr(message, "content", None)
+    if not content:
+        raise LLMClientError("Claude response had empty content.")
+
+    texts = []
+    for block in content:
+        text = getattr(block, "text", None)
+        if text is not None:
+            texts.append(str(text))
+    output = "".join(texts)
+
+    if output == "":
+        raise LLMClientError("Claude response did not contain text content.")
+    return output
     body = {
         "model": model,
         "system": system_prompt,

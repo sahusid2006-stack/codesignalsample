@@ -23,7 +23,7 @@ def _html_index() -> str:
     for level in LEVELS:
         items = []
         for ex in [e for e in EXERCISES if e.level == level]:
-            items.append(f'<li><a href="/exercise/{ex.exercise_id}">{ex.exercise_id} — {ex.title}</a> <small>({ex.task_id})</small></li>')
+            items.append(f'<li><a href="/exercise/{ex.exercise_id}">{ex.exercise_id} — {ex.title}</a> <small>({ex.task_id})</small><br><small>{ex.instructions}</small></li>')
         sections.append(f"<section class='level'><h2>Level {level}</h2><ul>{''.join(items)}</ul></section>")
     return f"""<!doctype html><html><head><meta charset='utf-8'><title>Prompt Assessment Simulator</title><link rel='stylesheet' href='/static/style.css'></head>
 <body><main class='container'><h1>Prompt Engineering Assessment Simulator</h1>
@@ -59,6 +59,7 @@ def _html_exercise(exercise_id: str) -> str:
     system_prompt = (PROMPT_DIR / "system_prompt.txt").read_text(encoding="utf-8")
     return f"""<!doctype html><html><head><meta charset='utf-8'><title>{ex.exercise_id}</title><link rel='stylesheet' href='/static/style.css'></head>
 <body><main class='container'><a href='/'>← Back</a>
+<h1>{ex.exercise_id} — {ex.title}</h1><p><b>Level:</b> {ex.level} | <b>Task:</b> {ex.task_id}</p><p><b>Goal:</b> {ex.prompt_goal}</p><p><b>Prompt Instructions:</b> {ex.instructions}</p>
 <h1>{ex.exercise_id} — {ex.title}</h1><p><b>Level:</b> {ex.level} | <b>Task:</b> {ex.task_id}</p><p><b>Goal:</b> {ex.prompt_goal}</p>
 <h3>System Prompt</h3><pre class='panel'>{system_prompt}</pre>
 <h3>Exercise Input</h3><pre class='panel'>{ex.input_text}</pre>

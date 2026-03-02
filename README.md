@@ -29,6 +29,7 @@ python -m pip install -r requirements.txt
 
 ## Environment variables
 - `ANTHROPIC_API_KEY` (required)
+- `MODEL` (optional, default: `claude-3-5-haiku-latest`; you can set `claude-haiku-4-5` if enabled on your account)
 - `MODEL` (optional, default: `claude-3-5-haiku-latest`)
 - `CACHE` (optional, default: `1`; set `0` to disable)
 - `PORT` (optional, default: `8000`)
@@ -50,6 +51,12 @@ You will get:
   - Run This Exercise
   - Run Visible Tests
   - Submit / Full Grade
+
+
+## Question Bank
+- Includes 40 prebuilt exercises across Level 1-4 (10 per level).
+- Each exercise includes embedded prompt instructions shown directly in the web UI.
+- Coverage includes structured extraction, constraints, summarization/transformation, tone/style, reasoning edge cases, and guardrail tasks.
 
 ## Terminal fallback commands
 
@@ -77,3 +84,9 @@ The included exercises are **Anthropic-style practice exercises** inspired by co
 ## Determinism and cache
 - LLM calls run with deterministic parameters.
 - Responses are cached at `.cache/responses.json`.
+
+
+## Anthropic API notes
+- This app now uses the official `anthropic` Python SDK.
+- If you see `HTTP 404 Not Found`, your `MODEL` value is usually not available on your account/region.
+- Try: `export MODEL=claude-3-5-haiku-latest` first, then switch to `claude-haiku-4-5` if your account supports it.
