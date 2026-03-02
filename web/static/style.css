@@ -1,0 +1,9 @@
+body { font-family: Arial, sans-serif; background:#111827; color:#e5e7eb; margin:0; }
+.container { max-width: 900px; margin: 0 auto; padding: 20px; }
+a { color:#93c5fd; }
+.level, .panel, .output { background:#1f2937; border:1px solid #374151; border-radius:8px; padding:12px; margin:12px 0; }
+.toolbar { display:flex; flex-wrap:wrap; gap:8px; margin:10px 0; }
+button, .navbtn { background:#2563eb; color:white; border:none; border-radius:6px; padding:8px 12px; text-decoration:none; cursor:pointer; }
+textarea { width:100%; min-height:260px; background:#0b1220; color:#e5e7eb; border:1px solid #334155; border-radius:8px; padding:12px; }
+pre { white-space:pre-wrap; word-break:break-word; }
+.output { min-height: 160px; }

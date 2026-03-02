@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ exercise.exercise_id }} - {{ exercise.title }}</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <main class="container">
+    <a href="/">← Back</a>
+    <h1>{{ exercise.exercise_id }} — {{ exercise.title }}</h1>
+    <p><b>Level:</b> {{ exercise.level }} | <b>Task:</b> {{ exercise.task_id }}</p>
+    <p><b>Goal:</b> {{ exercise.prompt_goal }}</p>
+
+    <h3>System Prompt (global)</h3>
+    <pre class="panel">{{ system_prompt }}</pre>
+
+    <h3>Exercise Input</h3>
+    <pre class="panel">{{ exercise.input_text }}</pre>
+
+    <h3>Editable Prompt: {{ exercise.task_id }}_prompt.txt</h3>
+    <textarea id="promptBox">{{ prompt_text }}</textarea>
+
+    <div class="toolbar">
+      <button onclick="savePrompt()">Save Prompt</button>
+      <button onclick="runExercise()">Run This Exercise</button>
+      <button onclick="runVisible()">Run Visible Tests</button>
+      <button onclick="runGrade()">Submit / Full Grade</button>
+      {% if prev_id %}<a class="navbtn" href="/exercise/{{ prev_id }}">Previous</a>{% endif %}
+      {% if next_id %}<a class="navbtn" href="/exercise/{{ next_id }}">Next</a>{% endif %}
+    </div>
+
+    <pre id="result" class="output">Ready.</pre>
+  </main>
+
+  <script>
+    async function savePrompt() {
+      const prompt = document.getElementById('promptBox').value;
+      const r = await fetch('/api/save_prompt/{{ exercise.task_id }}', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await r.json();
+      document.getElementById('result').textContent = data.ok ? 'Saved.' : data.error;
+    }
+
+    async function runExercise() {
+      const r = await fetch('/api/run_exercise/{{ exercise.exercise_id }}', { method: 'POST' });
+      const data = await r.json();
+      document.getElementById('result').textContent = data.ok ? data.output : data.error;
+    }
+
+    async function runVisible() {
+      const r = await fetch('/api/run_visible_tests', { method: 'POST' });
+      const data = await r.json();
+      document.getElementById('result').textContent = data.output;
+    }
+
+    async function runGrade() {
+      const r = await fetch('/api/run_full_grade', { method: 'POST' });
+      const data = await r.json();
+      document.getElementById('result').textContent = `${data.summary}\n\n${data.output}`;
+    }
+  </script>
+</body>
+</html>

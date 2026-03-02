@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt Assessment Simulator</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>Prompt Engineering Assessment Simulator</h1>
+    <p>CodeSignal-style workflow with Claude API and hidden grading.</p>
+
+    <div class="toolbar">
+      <button onclick="runVisible()">Run Visible Tests</button>
+      <button onclick="runGrade()">Run Full Grade</button>
+      <button onclick="resetPrompts()">Reset Baseline Prompts</button>
+    </div>
+
+    <pre id="output" class="output">Ready.</pre>
+
+    {% for level, exercises in grouped.items() %}
+      <section class="level">
+        <h2>Level {{ level }}</h2>
+        <ul>
+          {% for ex in exercises %}
+            <li>
+              <a href="/exercise/{{ ex.exercise_id }}">{{ ex.exercise_id }} — {{ ex.title }}</a>
+              <small>({{ ex.task_id }})</small>
+            </li>
+          {% endfor %}
+        </ul>
+      </section>
+    {% endfor %}
+  </main>
+
+  <script>
+    async function post(url) {
+      const r = await fetch(url, { method: 'POST' });
+      return await r.json();
+    }
+    async function runVisible() {
+      const data = await post('/api/run_visible_tests');
+      document.getElementById('output').textContent = data.output;
+    }
+    async function runGrade() {
+      const data = await post('/api/run_full_grade');
+      document.getElementById('output').textContent = `${data.summary}\n\n${data.output}`;
+    }
+    async function resetPrompts() {
+      const data = await post('/api/reset_prompts');
+      document.getElementById('output').textContent = data.ok ? 'Prompts reset.' : 'Reset failed.';
+    }
+  </script>
+</body>
+</html>

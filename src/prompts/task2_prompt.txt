@@ -1,0 +1,9 @@
+Extract customer entities from the input and output JSON only.
+Return exactly these keys:
+{"name":"...","email":"...","order_id":"..."}
+Use empty string if missing.
+
+Order ID patterns can include ORD-12345 or #12345.
+
+Input:
+{INPUT}

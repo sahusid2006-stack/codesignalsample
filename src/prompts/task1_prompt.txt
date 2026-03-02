@@ -1,0 +1,13 @@
+Classify the support message into exactly one label:
+BILLING, BUG, FEATURE_REQUEST, OTHER.
+
+Heuristics:
+- BILLING: charges, refund, invoice, payment.
+- BUG: error, crash, broken.
+- FEATURE_REQUEST: asking to add a new capability.
+- OTHER: anything else.
+
+Return only the label and nothing else.
+
+Message:
+{INPUT}
