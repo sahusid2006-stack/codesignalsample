@@ -60,6 +60,7 @@ def _html_exercise(exercise_id: str) -> str:
     return f"""<!doctype html><html><head><meta charset='utf-8'><title>{ex.exercise_id}</title><link rel='stylesheet' href='/static/style.css'></head>
 <body><main class='container'><a href='/'>← Back</a>
 <h1>{ex.exercise_id} — {ex.title}</h1><p><b>Level:</b> {ex.level} | <b>Task:</b> {ex.task_id}</p><p><b>Goal:</b> {ex.prompt_goal}</p><p><b>Prompt Instructions:</b> {ex.instructions}</p>
+<h1>{ex.exercise_id} — {ex.title}</h1><p><b>Level:</b> {ex.level} | <b>Task:</b> {ex.task_id}</p><p><b>Goal:</b> {ex.prompt_goal}</p>
 <h3>System Prompt</h3><pre class='panel'>{system_prompt}</pre>
 <h3>Exercise Input</h3><pre class='panel'>{ex.input_text}</pre>
 <h3>Editable Prompt: {ex.task_id}_prompt.txt</h3>

@@ -30,6 +30,7 @@ python -m pip install -r requirements.txt
 ## Environment variables
 - `ANTHROPIC_API_KEY` (required)
 - `MODEL` (optional, default: `claude-3-5-haiku-latest`; you can set `claude-haiku-4-5` if enabled on your account)
+- `MODEL` (optional, default: `claude-3-5-haiku-latest`)
 - `CACHE` (optional, default: `1`; set `0` to disable)
 - `PORT` (optional, default: `8000`)
 

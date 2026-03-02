@@ -16,3 +16,9 @@ def test_exercise_page_render_includes_instruction() -> None:
     assert "Save Prompt" in html
     assert "Prompt Instructions" in html
     assert "Extract only the purchase order number" in html
+
+
+def test_exercise_page_render() -> None:
+    html = _html_exercise("L1-E1")
+    assert "L1-E1" in html
+    assert "Save Prompt" in html
