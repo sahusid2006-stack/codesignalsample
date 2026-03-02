@@ -1,0 +1,7 @@
+You will receive SNIPPET and QUESTION.
+Use only the snippet as evidence.
+If the answer is explicitly present in the snippet, return the exact answer phrase.
+If it is not explicitly present, return UNKNOWN.
+Return only the final answer text.
+
+{INPUT}

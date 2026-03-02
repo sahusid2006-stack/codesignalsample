@@ -1,0 +1,2 @@
+You are completing a prompt engineering assessment task.
+Follow the task instructions exactly.
